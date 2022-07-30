@@ -1,0 +1,84 @@
+version: "3.4"
+
+x-app: &app
+  image: ${image_name}
+  depends_on:
+    - redis
+    - mongo
+  environment: &appEnv
+    ENV: dev
+    MONGO_URL: mongodb://mongo_user:mongo_pass@mongo:27017/
+    REDIS_URL: redis://redis:6379/0
+    PORT: 3000
+  entrypoint: npm run nodemon
+  volumes:
+    - ..:/app
+
+services:
+  bot:
+    <<: *app
+    environment:
+      <<: *appEnv
+      APP: BOT
+
+  api:
+    <<: *app
+    environment:
+      <<: *appEnv
+      APP: API
+    ports:
+      - 3000:3000
+
+  mongo:
+    image: mongo:5.0.9-focal
+    restart: always
+    ports:
+      - 27019:27017
+    expose:
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
+    volumes:
+      - mongo:/data/db
+
+  redis:
+    image: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+
+  tests:
+    profiles:
+      - test
+    image: ${image_name}
+    depends_on:
+      - test_mongo
+      - redis
+    environment:
+      ENV: test
+      MONGO_URL: mongodb://mongo_user:test_mongo@mongo:27017/
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ..:/app
+
+  test_mongo:
+    profiles:
+      - test
+    image: mongo:5.0.9-focal
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.103.0.1/16
+
+volumes:
+  mongo:

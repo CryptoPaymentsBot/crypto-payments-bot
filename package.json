@@ -1,0 +1,44 @@
+{
+  "name": "crypto-payments-bot",
+  "version": "1.0.0",
+  "description": "crypto payments bot",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "config": "./scripts/config.sh",
+    "start": "./scripts/run.sh",
+    "down": "./scripts/run.sh --clean",
+    "build": "./scripts/build.sh",
+    "shell": "npm run shell:bot",
+    "shell:bot": "./scripts/shell.sh bot",
+    "shell:api": "./scripts/shell.sh api",
+    "test": "./scripts/test.sh",
+    "nodemon": "nodemon"
+  },
+  "keywords": [
+    "bot",
+    "telegram"
+  ],
+  "author": "@MasterArhur",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/rate-limit": "^7.3.0",
+    "@fastify/swagger": "^7.4.1",
+    "@masterarthur/config": "^1.1.1",
+    "bull": "^4.8.2",
+    "fastify": "^4.3.0",
+    "ioredis": "^5.0.4",
+    "mongodb": "^4.8.0",
+    "node-telegram-bot-api": "^0.57.0",
+    "telegram-escape": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "bson": "^4.6.5",
+    "eslint": "^8.20.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1"
+  }
+}

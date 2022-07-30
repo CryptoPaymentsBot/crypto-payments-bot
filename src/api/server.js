@@ -2,9 +2,6 @@ import FastifyRateLimit from "@fastify/rate-limit";
 import FastifySwagger from "@fastify/swagger";
 import Fastify from "fastify";
 
-import { logger } from "../logger.js";
-
-// @ts-ignore
 export const server = Fastify({ logger: true });
 
 server.register(FastifySwagger, {

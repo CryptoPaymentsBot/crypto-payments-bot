@@ -25,12 +25,18 @@
     "@fastify/rate-limit": "^7.3.0",
     "@fastify/swagger": "^7.4.1",
     "@masterarthur/config": "^1.1.1",
+    "bip32": "github:mainarthur/bip32",
+    "bip39": "^3.0.4",
+    "bitcoinjs-lib": "^6.0.2",
     "bull": "^4.8.2",
+    "cashaddrjs": "^0.4.4",
+    "ethers": "^5.7.0",
     "fastify": "^4.3.0",
     "ioredis": "^5.0.4",
     "mongodb": "^4.8.0",
     "node-telegram-bot-api": "^0.57.0",
-    "telegram-escape": "^1.1.0"
+    "telegram-escape": "^1.1.0",
+    "tiny-secp256k1": "^2.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",

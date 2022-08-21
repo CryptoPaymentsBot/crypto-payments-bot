@@ -79,3 +79,8 @@ export const StartTags = Object.freeze({
   HELP: "help",
   TRANSLATE: "TRANSLATE",
 });
+
+export const Apps = Object.freeze({
+  BOT: "BOT",
+  API: "API",
+});

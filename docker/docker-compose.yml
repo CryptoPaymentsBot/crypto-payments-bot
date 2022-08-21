@@ -23,6 +23,8 @@ services:
 
   api:
     <<: *app
+    depends_on:
+      - bot
     environment:
       <<: *appEnv
       APP: API

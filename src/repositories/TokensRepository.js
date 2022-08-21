@@ -26,8 +26,8 @@ export class TokensRepository {
     if (!Array.isArray(json)) throw new Error(`${tokensFile} is not array`);
 
     this._tokens = json.map((obj) => new Token(obj));
-    this._tokens.forEach((token) => logger.log(token.toString()));
-    logger.log(`${this._tokens.length} tokens loaded`);
+
+    logger.log(`[TokensRepository] ${this._tokens.length} tokens loaded`);
     /**
      * @type {Object.<String, Token>}
      */
@@ -44,6 +44,13 @@ export class TokensRepository {
 
   static getMap() {
     return this._tokensMap;
+  }
+
+  /**
+   * @param {string} source
+   */
+  static getExternalIds(source) {
+    return [...new Set(this._tokens.map((token) => token.externalIds[source]))];
   }
 
   /**

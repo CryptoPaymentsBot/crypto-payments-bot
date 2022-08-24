@@ -35,6 +35,7 @@ export async function initTasks() {
     appQueue.process(taskName, async (job) => {
       return task.run(job);
     });
+    if (task.repeatOptions.runOnStart) await task.run();
   }
 
   const repeatableJobs = await appQueue.getRepeatableJobs();
@@ -47,7 +48,7 @@ export async function initTasks() {
   );
 
   logger.log(
-    `[tasks] currentrly running tasks ${JSON.stringify(
+    `[tasks] all repeating tasks ${JSON.stringify(
       Object.keys(repeatableJobsMap),
     )}`,
   );

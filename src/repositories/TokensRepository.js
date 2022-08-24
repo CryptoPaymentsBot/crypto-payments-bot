@@ -29,10 +29,13 @@ export class TokensRepository {
 
     logger.log(`[TokensRepository] ${this._tokens.length} tokens loaded`);
     /**
-     * @type {Object.<String, Token>}
+     * @type {Record<string, Record<string, string>>}
      */
     this._tokensMap = this._tokens.reduce((accumulator, token) => {
-      accumulator[token.toString()] = token;
+      Object.entries(token.externalIds).forEach(([source, externalId]) => {
+        if (!accumulator[source]) accumulator[source] = {};
+        accumulator[source][externalId] = token.symbol;
+      });
 
       return accumulator;
     }, {});
@@ -40,10 +43,6 @@ export class TokensRepository {
 
   static get() {
     return this._tokens;
-  }
-
-  static getMap() {
-    return this._tokensMap;
   }
 
   /**
@@ -68,11 +67,13 @@ export class TokensRepository {
 
   /**
    *
-   * @param {String} text
-   * @returns {Token}
+   * @param {String} source
+   * @param {String} exteralId
+   * @returns {string}
    */
-  static findByText(text) {
-    return this._tokensMap[text];
+  static getSymbolByExternalId(source, exteralId) {
+    if (!this._tokensMap) throw new Error("TokensRepository is not loaded");
+    return this._tokensMap[source][exteralId];
   }
 
   /**

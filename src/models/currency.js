@@ -2,36 +2,36 @@ export class Currency {
   /**
    *
    * @param {object} param
-   * @param {string} param.code
-   * @param {string} param.name
-   * @param {string} param.namePlural
-   * @param {string} param.symbol
-   * @param {number} param.decimals
+   * @param {string} param.code currency code (USD/UAH)
+   * @param {string} param.name name of currency (US Dollar)
+   * @param {string} param.namePlural name in plural form (US dollars)
+   * @param {string} param.symbol symbol of currency ($/CA$)
+   * @param {number} param.decimals decimals precision of currency
    */
   constructor({ code, name, namePlural, symbol, decimals }) {
     /**
-     * @type {string}
+     * @type {string}  currency code (USD/UAH)
      */
     this.code = code;
     /**
-     * @type {string}
+     * @type {string} name in plural form (US dollars)
      */
     this.namePlural = namePlural;
     /**
-     * @type {string}
+     * @type {string} symbol of currency ($/CA$)
      */
     this.symbol = symbol;
     /**
-     * @type {string}
+     * @type {string}  name of currency (US Dollar)
      */
     this.name = name;
     /**
-     * @type {number}
+     * @type {number} decimals precision of currency
      */
     this.decimals = decimals;
   }
 
   toString() {
-    return this.name;
+    return `${this.name} ${this.symbol}`;
   }
 }

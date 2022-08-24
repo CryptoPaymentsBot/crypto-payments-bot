@@ -1,76 +1,48 @@
 import { escapeHTML } from "telegram-escape";
 
-import { Model } from "./model.js";
-
-/**
- * @type {import("./model.js").ValidationRule[]}
- */
-const userValidation = [
-  {
-    name: "id",
-    type: "number",
-    required: true,
-  },
-  {
-    name: "name",
-    type: "string",
-    required: true,
-  },
-  {
-    name: "locale",
-    type: "string",
-    required: true,
-  },
-];
-
-export class User extends Model {
+export class User {
   /**
    *
    * @param {Object} params
-   * @param {*} [params._id]
-   * @param {Number} [params.createdAt]
-   * @param {Number} [params.updatedAt]
-   * @param {Number} params.id
-   * @param {String} params.name
-   * @param {String} params.locale
-   * @param {String | null} [params.startTag]
-   * @param {*} [params.temporaryMessage]
+   * @param {*} [params._id] objectid of mongodb
+   * @param {Number} params.id user telegram id
+   * @param {String} params.name user full name
+   * @param {String} params.locale user language locale
+   * @param {String | null} [params.startTag] argument of first /start argument command
+   * @param {boolean} [params.isPremium] is telegram premium account
+   * @param {Number} [params.createdAt] timestamp in ms of user creation
    */
-  constructor({
-    _id,
-    createdAt,
-    updatedAt,
-
-    id,
-    name,
-    locale,
-    startTag,
-    temporaryMessage,
-  }) {
-    super({ _id, createdAt, updatedAt });
+  constructor({ _id, createdAt, id, name, locale, startTag, isPremium }) {
     /**
-     * @type {Number}
+     * @type {*} objectid of mongodb
+     */
+    this._id = _id;
+    /**
+     * @type {Number} user telegram id
      */
     this.id = id;
     /**
-     * @type {String}
+     * @type {String} user full name
      */
     this.name = name;
     /**
-     * @type {String}
+     * @type {String} user language locale
      */
     this.locale = locale;
 
     /**
-     * @type {String | null}
+     * @type {String | null} argument of first /start argument command
      */
     this.startTag = startTag ?? null;
 
-    this.temporaryMessage = temporaryMessage ?? null;
-
-    this.validate(userValidation);
-
-    this._tracking = true;
+    /**
+     * @type {boolean} is telegram premium account
+     */
+    this.isPremium = isPremium ?? false;
+    /**
+     * @type {number} timestamp in ms of user creation
+     */
+    this.createdAt = createdAt ?? Date.now();
   }
 
   get HTML() {

@@ -8,7 +8,6 @@ import { generateDerivationPath } from "./path.js";
 
 /**
  * @typedef Addresses
- * @property {string} mnemonic
  * @property {string} ethAddress
  * @property {string} bscAddress
  * @property {string} maticAddress
@@ -34,7 +33,10 @@ export class Wallet {
     const seed = await bip39.mnemonicToSeed(mnemonic);
     const root = bip32Factory.fromSeed(seed);
 
-    return Wallet.getAddresses(index, account, root);
+    return {
+      mnemonic,
+      addresses: await Wallet.getAddresses(index, account, root),
+    };
   }
 
   /**
@@ -64,15 +66,28 @@ export class Wallet {
    */
   static async getAddresses(index, account, root) {
     return Object.fromEntries(
-      (
-        await Promise.all(
-          Object.entries(addressesMap).map(async ([chain, mapFunction]) => [
-            `${chain}Address`,
-            await mapFunction({ account, root, index }),
-          ]),
-        )
-      ).concat([["mnemonic", account.mnemonic.phrase]]),
+      await Promise.all(
+        Object.entries(addressesMap).map(async ([chain, mapFunction]) => [
+          `${chain}Address`,
+          await mapFunction({ account, root, index }),
+        ]),
+      ),
     );
+  }
+
+  static async createAccounts() {
+    const { mnemonic, addresses } = await this.createRandom(0);
+
+    return {
+      mnemonic,
+      addresses: [addresses].concat(
+        await Promise.all(
+          Array(9)
+            .fill(0)
+            .map((_, i) => this.fromMnemonic(mnemonic, i + 1)),
+        ),
+      ),
+    };
   }
 }
 

@@ -1,9 +1,11 @@
 import { DEFAULT_LOCALE } from "../../../locales/t18g.js";
 import { logger } from "../../../logger.js";
-import { UsersRepository } from "../../../repositories/UsersRepository.js";
+import { UsersService } from "../../../services/UsersService.js";
 import { commandParser } from "../../../utils/commandParser.js";
 import { commandExecuter } from "../../commands/executer.js";
 import { menuController } from "../../menus/controller.js";
+
+const usersService = new UsersService();
 
 /**
  *  @param {import('bull').Job<import("node-telegram-bot-api").Message>}  job
@@ -20,7 +22,7 @@ export const messageJobProcessor = async ({ data: message }) => {
 
     const name = `${first_name}${last_name ? ` ${last_name}` : ""}`;
     const locale = userLocale ?? DEFAULT_LOCALE;
-    const user = await UsersRepository.loadUser({ id, locale, name });
+    const user = await usersService.loadUser({ id, locale, name });
 
     const command = commandParser(message);
 

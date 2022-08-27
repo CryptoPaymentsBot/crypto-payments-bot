@@ -55,41 +55,6 @@ export class UsersRepository {
     }
   }
 
-  /**
-   *
-   * @param {object} params
-   * @param {number} params.id
-   * @param {string} params.name
-   * @param {string} params.locale
-   *
-   * @returns {Promise<User>}
-   */
-  static async loadUser({ id, locale, name }) {
-    const user = await this.getUser(id);
-    if (user) return user;
-
-    return this.createUser({ id, locale, name });
-  }
-
-  /**
-   *
-   * @param {object} params
-   * @param {number} params.id
-   * @param {string} params.name
-   * @param {string} params.locale
-   *
-   * @returns {Promise<User>}
-   */
-  static async createUser({ id, name, locale }) {
-    const user = new User({ id, name, locale });
-
-    logger.log(`[NEW USER] #id${id} ${name}`);
-
-    await this.update(user);
-
-    return user;
-  }
-
   static async count() {
     if (!this.collection)
       throw new Error("UsersRepository collections is not loaded");

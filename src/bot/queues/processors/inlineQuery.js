@@ -2,12 +2,14 @@ import { config } from "../../../config.js";
 import { MAX_INLINE_RESULTS } from "../../../constants.js";
 import { DEFAULT_LOCALE, t18g } from "../../../locales/t18g.js";
 import { logger } from "../../../logger.js";
-import { UsersRepository } from "../../../repositories/UsersRepository.js";
+import { UsersService } from "../../../services/UsersService.js";
 import { Timedelta } from "../../../types/Timedelta.js";
 import { bot } from "../../bots/bot.js";
 import { inlineQueryExecuter } from "../../inline/executer.js";
 
 const INLINE_QUERY_CACHE_TIME = config("INLINE_QUERY_CACHE_TIME");
+
+const usersService = new UsersService();
 
 /**
  *  @param {import('bull').Job<import("node-telegram-bot-api").InlineQuery>}  job
@@ -31,7 +33,8 @@ export const inlineQueryJobProcessor = async ({ data: inlineQuery }) => {
     } = inlineQuery?.from ?? {};
     const name = `${first_name}${last_name ? ` ${last_name}` : ""}`;
     const locale = userLocale ?? DEFAULT_LOCALE;
-    const user = await UsersRepository.loadUser({
+
+    const user = await usersService.loadUser({
       id,
       locale,
       name,

@@ -1,5 +1,7 @@
 import { escapeHTML } from "telegram-escape";
 
+import { Bot } from "./bot.js";
+
 export class User {
   /**
    *
@@ -8,9 +10,9 @@ export class User {
    * @param {Number} params.id user telegram id
    * @param {String} params.name user full name
    * @param {String} params.locale user language locale
-   * @param {String | null} [params.startTag] argument of first /start argument command
-   * @param {boolean} [params.isPremium] is telegram premium account
-   * @param {Number} [params.createdAt] timestamp in ms of user creation
+   * @param {String | null} [params.startTag=null] argument of first /start argument command
+   * @param {boolean} [params.isPremium=false] is telegram premium account
+   * @param {Number} [params.createdAt=Date.now()] timestamp in ms of user creation
    */
   constructor({ _id, createdAt, id, name, locale, startTag, isPremium }) {
     /**

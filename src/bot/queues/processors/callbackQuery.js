@@ -1,9 +1,11 @@
 import { DEFAULT_LOCALE } from "../../../locales/t18g.js";
 import { logger } from "../../../logger.js";
-import { UsersRepository } from "../../../repositories/UsersRepository.js";
+import { UsersService } from "../../../services/UsersService.js";
 import { Timedelta } from "../../../types/Timedelta.js";
 import { bot } from "../../bots/bot.js";
 import { callbackController } from "../../callback/controller.js";
+
+const usersService = new UsersService();
 
 /**
  *  @param {import('bull').Job<import("node-telegram-bot-api").CallbackQuery>}  job
@@ -25,7 +27,7 @@ export const callbackQueryJobProcessor = async ({ data: callbackQuery }) => {
     } = callbackQuery?.from ?? {};
     const name = `${first_name}${last_name ? ` ${last_name}` : ""}`;
 
-    const user = await UsersRepository.loadUser({
+    const user = await usersService.loadUser({
       id,
       locale: locale ?? DEFAULT_LOCALE,
       name,

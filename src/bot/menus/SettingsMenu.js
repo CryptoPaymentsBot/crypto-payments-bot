@@ -4,36 +4,33 @@ import { bot } from "../bots/bot.js";
 import { Menu } from "./Menu.js";
 import { MenuNames } from "./names.js";
 
-export class MainMenu extends Menu {
-  static NAME = MenuNames.MAIN;
+export class SettingsMenu extends Menu {
+  static NAME = MenuNames.SETTINGS;
+
   constructor() {
-    super(MainMenu.NAME);
-    this.on("my_media", this.onMyBots);
-    this.on("add_media", this.onAddBot);
-    this.on("settings", this.onSettings);
+    super(SettingsMenu.NAME);
+
+    this.on("back", this.onBack);
+    this.on("change_language", this.onChangeLanguage);
     this.on(Menu.Events.OUTHER, this.onOther);
   }
 
   get buttons() {
-    return [["my_bots", "add_bot"], ["settings"]];
+    return [["change_language", "back"]];
   }
 
   /**
    *
    * @param {import('./Menu').StartParams} params
    */
-  async start({ chatId, locale, options, user }) {
-    await bot.sendMessage(
-      chatId,
-      options?.text ?? t18g(locale)`start${user.HTML}`,
-      {
-        parse_mode: ParseMode.HTML,
-        reply_markup: {
-          resize_keyboard: true,
-          keyboard: this.getKeyboard(locale),
-        },
+  async start({ chatId, locale }) {
+    await bot.sendMessage(chatId, t18g(locale)`settings_text`, {
+      parse_mode: ParseMode.HTML,
+      reply_markup: {
+        resize_keyboard: true,
+        keyboard: this.getKeyboard(locale),
       },
-    );
+    });
 
     return true;
   }
@@ -43,13 +40,13 @@ export class MainMenu extends Menu {
    *
    * @returns {Promise<Object>}
    */
-  async onSettings({ message, user, locale, id }) {
+  async onChangeLanguage({ id, user, message, locale }) {
     if (!this.controller) return;
 
     await this.controller.startMenu({
       message,
       user,
-      menuName: MenuNames.SETTINGS,
+      menuName: MenuNames.USER_LANG,
       locale,
       id,
     });
@@ -60,13 +57,13 @@ export class MainMenu extends Menu {
    *
    * @returns {Promise<Object>}
    */
-  async onAddBot({ message, user, locale, id }) {
+  async onBack({ message, user, menuNode, locale, id }) {
     if (!this.controller) return;
 
     await this.controller.startMenu({
       message,
       user,
-      menuName: MenuNames.ADD_BOT,
+      menuName: menuNode?.parent?.name ?? MenuNames.MAIN,
       locale,
       id,
     });
@@ -83,24 +80,7 @@ export class MainMenu extends Menu {
     await this.controller.startMenu({
       message,
       user,
-      menuName: MenuNames.MAIN,
-      locale,
-      id,
-    });
-  }
-
-  /**
-   * @param {import('./Menu').EventParams} params
-   *
-   * @returns {Promise<Object>}
-   */
-  async onMyBots({ message, user, locale, id }) {
-    if (!this.controller) return;
-
-    await this.controller.startMenu({
-      message,
-      user,
-      menuName: MenuNames.MY_BOTS,
+      menuName: MenuNames.SETTINGS,
       locale,
       id,
     });

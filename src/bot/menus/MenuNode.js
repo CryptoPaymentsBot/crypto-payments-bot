@@ -2,9 +2,9 @@ export class MenuNode {
   /**
    *
    * @param {import('./Menu.js').Menu} menu
-   * @param {MenuNode[]} [submenus]
+   * @param {MenuNode[]} [submenus=[]]
    */
-  constructor(menu, submenus) {
+  constructor(menu, submenus = []) {
     this.name = menu.name;
     this.menu = menu;
     /**

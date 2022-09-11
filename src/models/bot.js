@@ -6,6 +6,11 @@ import { escapeHTML } from "telegram-escape";
  * @property {string} comment
  */
 
+/**
+ * @typedef Balances
+ * @property {number} updatedAt
+ */
+
 export class Bot {
   /**
    *
@@ -14,9 +19,11 @@ export class Bot {
    * @param {Number} params.id bot telegram id
    * @param {Number} params.ownerId linked to User.id - owner of this bot
    * @param {string} params.name name of Bot
+   * @param {string} params.tokenHash SHA256 of bot's token
    * @param {string} params.username t.me/username of bot
    * @param {string} params.apiKey bot's api key
    * @param {import("../wallet/wallet.js").Addresses[]} params.addresses list of maps of native chains addresses
+   * @param {Balances} params.balances list of maps of native chains addresses
    * @param {string[]} [params.exludedTokens=[]] list of excluded tokens, linked to Token.symbol
    * @param {string} [params.baseCurrency="USD"] base currenc, linked to Currency.code
    * @param {Number} [params.createdAt=Date.now()] timestamp in ms of user creation
@@ -33,6 +40,7 @@ export class Bot {
     username,
     apiKey,
     addresses,
+    tokenHash,
     exludedTokens = [],
     baseCurrency = "USD",
     createdAt = Date.now(),
@@ -56,6 +64,10 @@ export class Bot {
      * @type {string} name of Bot
      */
     this.name = name;
+    /**
+     * @type {string} SHA256 of bot's token
+     */
+    this.tokenHash = tokenHash;
     /**
      * @type {string} t.me/username of bot
      */

@@ -1,4 +1,4 @@
-import { randomBytes } from "crypto";
+import { createHash, randomBytes } from "crypto";
 
 import { logger } from "../logger.js";
 import { Bot } from "../models/bot.js";
@@ -41,6 +41,7 @@ export class BotsService {
       addresses,
       username: `${username}`,
       apiKey: this.generateBotApiKey(),
+      tokenHash: createHash("sha256").update(botToken).digest("hex"),
     });
 
     logger.log(`[NEW BOT] #id${id} #ownerId${ownerId} ${name}`);

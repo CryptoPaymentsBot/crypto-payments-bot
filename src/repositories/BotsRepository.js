@@ -19,6 +19,8 @@ export class BotsRepository {
   static async load(collection) {
     this.collection = collection;
     await collection.createIndex("id");
+    await collection.createIndex("ownerId");
+    await collection.createIndex("apiKey");
     logger.log("[REPOSITORY] BotsRepository loaded");
   }
 
@@ -50,21 +52,21 @@ export class BotsRepository {
 
   /**
    *
-   * @param {Bot} user
+   * @param {Bot} bot
    */
-  static async update(user) {
+  static async update(bot) {
     if (!this.collection)
       throw new Error("BotsRepository collections is not loaded");
-    const { _id } = user;
+    const { _id } = bot;
 
     if (_id) {
       return this.collection.updateOne(
         { _id },
-        { $set: prepareRecord(user) },
+        { $set: prepareRecord(bot) },
         { upsert: true },
       );
     } else {
-      return this.collection.insertOne(user);
+      return this.collection.insertOne(bot);
     }
   }
 

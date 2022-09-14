@@ -23,7 +23,7 @@ export class Bot {
    * @param {string} params.username t.me/username of bot
    * @param {string} params.apiKey bot's api key
    * @param {import("../wallet/wallet.js").Addresses[]} params.addresses list of maps of native chains addresses
-   * @param {Balances} params.balances list of maps of native chains addresses
+   * @param {Balances} [params.balances] list of maps of native chains addresses
    * @param {string[]} [params.exludedTokens=[]] list of excluded tokens, linked to Token.symbol
    * @param {string} [params.baseCurrency="USD"] base currenc, linked to Currency.code
    * @param {Number} [params.createdAt=Date.now()] timestamp in ms of user creation

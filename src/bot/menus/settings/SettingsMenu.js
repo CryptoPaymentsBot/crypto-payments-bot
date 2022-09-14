@@ -1,8 +1,8 @@
-import { ParseMode } from "../../constants.js";
-import { t18g } from "../../locales/t18g.js";
-import { bot } from "../bots/bot.js";
-import { Menu } from "./Menu.js";
-import { MenuNames } from "./names.js";
+import { ParseMode } from "../../../constants.js";
+import { t18g } from "../../../locales/t18g.js";
+import { bot } from "../../bots/bot.js";
+import { Menu } from "../Menu.js";
+import { MenuNames } from "../names.js";
 
 export class SettingsMenu extends Menu {
   static NAME = MenuNames.SETTINGS;
@@ -21,7 +21,7 @@ export class SettingsMenu extends Menu {
 
   /**
    *
-   * @param {import('./Menu').StartParams} params
+   * @param {import('../Menu').StartParams} params
    */
   async start({ chatId, locale }) {
     await bot.sendMessage(chatId, t18g(locale)`settings_text`, {
@@ -36,7 +36,7 @@ export class SettingsMenu extends Menu {
   }
 
   /**
-   * @param {import('./Menu').EventParams} params
+   * @param {import('../Menu').EventParams} params
    *
    * @returns {Promise<Object>}
    */
@@ -53,7 +53,7 @@ export class SettingsMenu extends Menu {
   }
 
   /**
-   * @param {import('./Menu').EventParams} params
+   * @param {import('../Menu').EventParams} params
    *
    * @returns {Promise<Object>}
    */
@@ -70,7 +70,7 @@ export class SettingsMenu extends Menu {
   }
 
   /**
-   * @param {import('./Menu').EventParams} params
+   * @param {import('../Menu').EventParams} params
    *
    * @returns {Promise<Object>}
    */

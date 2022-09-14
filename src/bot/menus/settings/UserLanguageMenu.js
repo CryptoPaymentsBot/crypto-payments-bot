@@ -1,10 +1,10 @@
-import { ParseMode } from "../../constants.js";
-import { t18g } from "../../locales/t18g.js";
-import { logger } from "../../logger.js";
-import { UsersRepository } from "../../repositories/UsersRepository.js";
-import { bot } from "../bots/bot.js";
-import { Menu } from "./Menu.js";
-import { MenuNames } from "./names.js";
+import { ParseMode } from "../../../constants.js";
+import { t18g } from "../../../locales/t18g.js";
+import { logger } from "../../../logger.js";
+import { UsersRepository } from "../../../repositories/UsersRepository.js";
+import { bot } from "../../bots/bot.js";
+import { Menu } from "../Menu.js";
+import { MenuNames } from "../names.js";
 
 export class UserLanguageMenu extends Menu {
   static NAME = MenuNames.USER_LANG;
@@ -26,7 +26,7 @@ export class UserLanguageMenu extends Menu {
 
   /**
    *
-   * @param {import('./Menu').StartParams} param0
+   * @param {import('../Menu').StartParams} param0
    */
   async start({ chatId, locale }) {
     await bot.sendMessage(chatId, t18g(locale)`change_language_text`, {
@@ -42,7 +42,7 @@ export class UserLanguageMenu extends Menu {
 
   /**
    *
-   * @param {import('./Menu').EventParams} params
+   * @param {import('../Menu').EventParams} params
    */
   async onAll({ user, id, message, key }) {
     if (!this.controller) return;

@@ -15,7 +15,7 @@ export class BotsService {
     `https://api.telegram.org/bot${botToken}/getMe`;
 
   generateBotApiKey() {
-    return randomBytes(256).toString("hex");
+    return randomBytes(32).toString("hex");
   }
 
   /**

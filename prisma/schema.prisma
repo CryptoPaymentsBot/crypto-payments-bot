@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  telegramId Int @unique
+  name String
+  locale String
+  startTag String?
+  createdAt DateTime? @default(now())
+
+  bots Bot[]
+  invoices Invoice[]
+
+  @@index(fields: [telegramId])
+}
+
+enum ReceiveOptions {
+  DM
+  webhook
+}
+
+enum RequestType {
+  contact
+  location
+  comment
+}
+
+model Bot {
+  id Int @id @default(autoincrement())
+  telegramId Int @unique
+  baseCurrencyCode String
+  userId Int
+
+  name String
+  tokenHash String
+  username String
+  apiKeyHash String
+  balances Json
+  addresses Json
+
+  user User @relation(fields: [userId], references: [id])
+  products Product[]
+  currency Currency @relation(fields: [baseCurrencyCode], references: [code])
+
+  isPremium Boolean? @default(false)
+  createdAt DateTime? @default(now())
+  excludedTokens String[] @default([])
+  recieveOption ReceiveOptions? @default(value: DM)
+  requestList Json? @default("[]")
+
+  startTag String?
+  webhookUrl String?
+
+  @@index(fields: [telegramId])
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  botId Int
+  defaultCurrencyCode String
+
+  name String
+  defaultPrice String
+  bot Bot @relation(fields: [botId], references: [id])
+  currency Currency @relation(fields: [defaultCurrencyCode], references: [code])
+  invoices Invoice[]
+
+  createdAt DateTime? @default(now())
+
+  description String?
+  externalLink String?
+  photoId String?
+  videoId String?
+
+  @@index(fields: [botId])
+}
+
+model Invoice {
+  id String @id @default(uuid())
+  productId Int
+  userId Int
+  currencyCode String
+
+  amountFiat String
+  requestList Json
+  currency Currency @relation(fields: [currencyCode], references: [code])
+  product Product @relation(fields: [productId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  isConfirmed Boolean? @default(false)
+  createdAt DateTime? @default(now())
+  responsesList Json? @default("[]")
+
+  lastPaymentCheck DateTime?
+  payedAtCheck DateTime?
+  payedTokenId Int?
+  payedAmount String?
+
+  @@index(fields: [userId, productId])
+}
+
+model Currency {
+  code String @id
+  namePlural String
+  symbol String
+  name String
+  decimals Int
+
+  invoices Invoice[]
+  bots Bot[]
+  products Product[]
+
+  @@index(fields: [code])
+}
+
+model Token {
+  id Int @id @default(autoincrement())
+  name String
+  nativeChain String
+  symbol String
+  contractAddress String?
+  iconEmoji String
+  decimals Int
+  externalIds Json
+
+  @@unique([name, nativeChain, symbol])
+  @@index(fields: [name, nativeChain,symbol])
+}

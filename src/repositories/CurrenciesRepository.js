@@ -2,8 +2,9 @@ import fsp from "fs/promises";
 
 import { CurrencyAdapter } from "../adapters/CurrencyAdapter.js";
 import { logger } from "../logger.js";
-import { Currency } from "../models/currency.js";
+import { Currency } from "../models/Currency.js";
 import { resizeArray } from "../utils/resizeArray.js";
+import { prismaClient } from "./PrismaClient.js";
 
 export class CurrenciesRepository {
   static ColumnsCount = 3;
@@ -43,6 +44,20 @@ export class CurrenciesRepository {
 
       return accumulator;
     }, {});
+
+    await Promise.all(
+      this._currencies.map(async (currency) => {
+        const row = await prismaClient.currency.findFirst({
+          where: {
+            name: currency.name,
+            code: currency.code,
+            symbol: currency.symbol,
+          },
+        });
+        if (row) return;
+        await prismaClient.currency.create({ data: currency });
+      }),
+    );
   }
 
   static get() {

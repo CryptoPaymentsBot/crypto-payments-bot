@@ -1,5 +1,4 @@
-import { config } from "@masterarthur/config";
-
+import { config } from "../../config.js";
 import { ChatAction, ChatType } from "../../constants.js";
 import { bot } from "../bots/bot.js";
 import { Command } from "./Command.js";

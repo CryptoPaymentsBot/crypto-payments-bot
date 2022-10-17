@@ -2,8 +2,9 @@ import fsp from "fs/promises";
 
 import { TokenAdapter } from "../adapters/TokenAdapter.js";
 import { logger } from "../logger.js";
-import { Token } from "../models/token.js";
+import { Token } from "../models/Token.js";
 import { resizeArray } from "../utils/resizeArray.js";
+import { prismaClient } from "./PrismaClient.js";
 
 export class TokensRepository {
   static ColumnsCount = 3;
@@ -39,6 +40,20 @@ export class TokensRepository {
 
       return accumulator;
     }, {});
+
+    await Promise.all(
+      this._tokens.map(async (token) => {
+        const row = await prismaClient.token.findFirst({
+          where: {
+            name: token.name,
+            nativeChain: token.nativeChain,
+            symbol: token.symbol,
+          },
+        });
+        if (row) return;
+        await prismaClient.token.create({ data: token });
+      }),
+    );
   }
 
   static get() {
@@ -68,12 +83,12 @@ export class TokensRepository {
   /**
    *
    * @param {String} source
-   * @param {String} exteralId
+   * @param {String} externalId
    * @returns {string}
    */
-  static getSymbolByExternalId(source, exteralId) {
+  static getSymbolByExternalId(source, externalId) {
     if (!this._tokensMap) throw new Error("TokensRepository is not loaded");
-    return this._tokensMap[source][exteralId];
+    return this._tokensMap[source][externalId];
   }
 
   /**

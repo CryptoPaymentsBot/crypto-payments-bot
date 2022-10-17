@@ -3,34 +3,18 @@
  */
 
 import { logger } from "../logger.js";
-import { User } from "../models/user.js";
+import { User } from "../models/User.js";
 import { prepareRecord } from "../utils/prepareRecord.js";
+import { prismaClient } from "./PrismaClient.js";
 
 export class UsersRepository {
   /**
-   * @type {import("mongodb").Collection<UserDocument> | null}
-   */
-  static collection = null;
-
-  /**
    *
-   * @param {import("mongodb").Collection<UserDocument>} collection
-   */
-  static async load(collection) {
-    this.collection = collection;
-    await collection.createIndex("id");
-    logger.log("[REPOSITORY] UsersRepository loaded");
-  }
-
-  /**
-   *
-   * @param {Number} id
+   * @param {Number} telegramId
    * @returns {Promise<User | null>}
    */
-  static async getUser(id) {
-    if (!this.collection)
-      throw new Error("UsersRepository collections is not loaded");
-    const doc = await this.collection.findOne({ id });
+  static async getUser(telegramId) {
+    const doc = await prismaClient.user.findFirst({ where: { telegramId } });
 
     return doc && new User(doc);
   }

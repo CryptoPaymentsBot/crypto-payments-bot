@@ -1,9 +1,9 @@
 import IORedis from "ioredis";
 
 import { logger } from "../logger.js";
-import { Currency } from "../models/currency.js";
-import { Price } from "../models/price.js";
-import { Token } from "../models/token.js";
+import { Currency } from "../models/Currency.js";
+import { Price } from "../models/Price.js";
+import { Token } from "../models/Token.js";
 
 export class PricesRepository {
   /**

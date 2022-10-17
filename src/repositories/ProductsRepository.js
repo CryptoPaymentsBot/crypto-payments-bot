@@ -3,7 +3,7 @@
  */
 
 import { logger } from "../logger.js";
-import { Product } from "../models/product.js";
+import { Product } from "../models/Product.js";
 import { prepareRecord } from "../utils/prepareRecord.js";
 
 export class ProductsRepository {

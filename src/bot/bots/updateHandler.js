@@ -31,7 +31,7 @@ export const updateHandler = (updateType) => {
       RATE_LIMITER[updateType]
         ? `Rate limiter: ${RATE_LIMITER[updateType]}`
         : "No Rate Limiter"
-    }`
+    }`,
   );
 
   return async (data) => {

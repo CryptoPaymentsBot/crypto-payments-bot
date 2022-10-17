@@ -56,10 +56,9 @@ model Bot {
   isPremium Boolean? @default(false)
   createdAt DateTime? @default(now())
   excludedTokens String[] @default([])
-  recieveOption ReceiveOptions? @default(value: DM)
+  receiveOption ReceiveOptions? @default(value: DM)
   requestList Json? @default("[]")
 
-  startTag String?
   webhookUrl String?
 
   @@index(fields: [telegramId])

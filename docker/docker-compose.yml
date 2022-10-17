@@ -4,13 +4,13 @@ x-app: &app
   image: ${image_name}
   depends_on:
     - redis
-    - mongo
+    - postgres
   environment: &appEnv
     ENV: dev
-    MONGO_URL: mongodb://mongo_user:mongo_pass@mongo:27017/
-    REDIS_URL: redis://redis:6379/0
+    DATABASE_URL: ${DATABASE_URL}
+    REDIS_URL: ${REDIS_URL}
     PORT: 3000
-  entrypoint: npm run nodemon
+  entrypoint: sh -c "echo $DATABASE_URL && npx prisma db push && npm run nodemon"
   volumes:
     - ..:/app
 
@@ -31,18 +31,16 @@ services:
     ports:
       - 3000:3000
 
-  mongo:
-    image: mongo:5.0.9-focal
-    restart: always
+  postgres:
+    image: postgres:alpine
     ports:
-      - 27019:27017
-    expose:
-      - 27017
+      - 5432:5432
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo_user
-      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
-    volumes:
-      - mongo:/data/db
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: debug
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
   redis:
     image: redis
@@ -60,27 +58,19 @@ services:
       - redis
     environment:
       ENV: test
-      MONGO_URL: mongodb://mongo_user:test_mongo@mongo:27017/
+      MONGO_URL: postgres://postgres:postgres@test_postgres:27017/
       REDIS_URL: redis://redis:6379/0
     volumes:
       - ..:/app
 
-  test_mongo:
+  test_postgres:
     profiles:
       - test
-    image: mongo:5.0.9-focal
-    restart: always
+    image: postgres:alpine
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo_user
-      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
-
-networks:
-  default:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.103.0.1/16
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 volumes:
   mongo:

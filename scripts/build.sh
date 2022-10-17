@@ -17,6 +17,7 @@ fi
 
 
 DOCKER_BUILDKIT=1 \
+echo "Building $tags, target is $target"
 docker build \
   --build-arg VERSION="${VERSION}" \
   $tags \

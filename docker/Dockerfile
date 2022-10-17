@@ -5,6 +5,8 @@ ENV VERSION=$VERSION
 WORKDIR /app
 COPY package*.json .
 RUN npm install
+COPY prisma prisma
+RUN npx prisma generate
 
 # Test Image
 FROM base as test

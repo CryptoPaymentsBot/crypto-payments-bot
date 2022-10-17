@@ -1,5 +1,5 @@
 import { logger } from "../../logger.js";
-import { User } from "../../models/user.js";
+import { User } from "../../models/User.js";
 import { Callback } from "./Callback.js";
 
 /**

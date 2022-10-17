@@ -12,7 +12,7 @@ export class SettingsMenu extends Menu {
 
     this.on("back", this.onBack);
     this.on("change_language", this.onChangeLanguage);
-    this.on(Menu.Events.OUTHER, this.onOther);
+    this.on(Menu.Events.OTHER, this.onOther);
   }
 
   get buttons() {

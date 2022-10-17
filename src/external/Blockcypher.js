@@ -2,13 +2,13 @@
  * @typedef {"btc" | "ltc" | "doge"} BlockcypherChain
  */
 
-import { queryStringify } from "../utils/queryStingify.js";
+import { queryStringify } from "../utils/queryStringify.js";
 
 /**
  * @type {Record<string, BlockcypherChain>}
  */
 export const blockcypherChainsMap = { BTC: "btc", LTC: "ltc", DOGE: "doge" };
-export const blockchyperChains = Object.values(blockcypherChainsMap);
+export const blockcypherChains = Object.values(blockcypherChainsMap);
 
 export class BlockcypherClient {
   /**
@@ -22,7 +22,7 @@ export class BlockcypherClient {
 
   /**
    * @param {string} endpoint
-   * @param {import('../utils/queryStingify.js').Query} [query]
+   * @param {import('../utils/queryStringify.js').Query} [query]
    * @returns {Promise<any>}
    */
   async _request(endpoint, query = {}) {
@@ -76,7 +76,7 @@ export class BlockcypherClient {
    * @property {number} ver
    * @property {number} vin_sz
    * @property {number} vout_sz
-   * @property {number} confitmations
+   * @property {number} confirmations
    * @property {number} confidence
    * @property {boolean} double_spend
    * @property {string[]} addresses

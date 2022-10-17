@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "crypto";
 
 import { logger } from "../logger.js";
-import { Bot } from "../models/bot.js";
+import { Bot } from "../models/Bot.js";
 import { BotsRepository } from "../repositories/BotsRepository.js";
 import { Wallet } from "../wallet/wallet.js";
 
@@ -21,12 +21,12 @@ export class BotsService {
   /**
    *
    * @param {object} params
-   * @param {number} params.ownerId
+   * @param {number} params.userId
    * @param {string} params.botToken
    *
    * @returns {Promise<{bot: Bot, mnemonic: string}>}
    */
-  async createBot({ ownerId, botToken }) {
+  async createBot({ userId, botToken }) {
     const botInfoResponse = await fetch(this.generateBotInfoUrl(botToken));
     /**
      * @type {import("node-telegram-bot-api").User}
@@ -36,7 +36,7 @@ export class BotsService {
 
     const bot = new Bot({
       id,
-      ownerId,
+      userId,
       name,
       addresses,
       username: `${username}`,

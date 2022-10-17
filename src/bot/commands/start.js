@@ -1,5 +1,5 @@
 import { ChatAction, ChatType } from "../../constants.js";
-import { User } from "../../models/user.js";
+import { User } from "../../models/User.js";
 import { menuController } from "../menus/controller.js";
 import { MenuNames } from "../menus/names.js";
 import { prefixController } from "../prefixes/controller.js";

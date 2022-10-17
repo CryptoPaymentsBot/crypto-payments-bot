@@ -11,7 +11,7 @@ export class MainMenu extends Menu {
     this.on("my_media", this.onMyBots);
     this.on("add_media", this.onAddBot);
     this.on("settings", this.onSettings);
-    this.on(Menu.Events.OUTHER, this.onOther);
+    this.on(Menu.Events.OTHER, this.onOther);
   }
 
   get buttons() {

@@ -1,4 +1,3 @@
-import { escapeHTML } from "telegram-escape";
 // TODO: Add locale support
 export class Product {
   /**
@@ -10,7 +9,7 @@ export class Product {
    * @param {Number} params.createdAt date of product creation
    * @param {string} params.defaultPrice default price of this product in defaultFiat
    * @param {string} params.defaultFiat defaultFiat linked to Currency.code
-   * @param {string} [params.description] Descripton of product
+   * @param {string} [params.description] Description of product
    * @param {string} [params.externalLink] Additional external link to third-party web site
    * @param {string} [params.photoId] photo of the product, linked to telegram photo id
    * @param {string} [params.videoId] video of the product, linked to telegram video id
@@ -52,7 +51,7 @@ export class Product {
      */
     this.defaultFiat = defaultFiat;
     /**
-     * @type {string | undefined}  Descripton of product
+     * @type {string | undefined}  Description of product
      */
     this.description = description;
     /**

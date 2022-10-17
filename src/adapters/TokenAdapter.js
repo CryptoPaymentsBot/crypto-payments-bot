@@ -1,4 +1,4 @@
-import { Token } from "../models/token.js";
+import { Token } from "../models/Token.js";
 
 export class TokenAdapter {
   /**

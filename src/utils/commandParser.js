@@ -11,12 +11,12 @@ export const commandParser = (msg) => {
   const {
     text: messageText,
     caption,
-    entities: textEntites,
+    entities: textEntities,
     caption_entities,
   } = msg;
 
   const text = messageText ?? caption ?? EMPTY_STRING;
-  const entities = textEntites ?? caption_entities ?? [];
+  const entities = textEntities ?? caption_entities ?? [];
 
   if (!text && !entities) {
     return null;

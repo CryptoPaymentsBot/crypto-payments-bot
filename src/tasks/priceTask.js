@@ -2,7 +2,7 @@ import { fetch } from "undici";
 
 import { config } from "../config.js";
 import { logger } from "../logger.js";
-import { Price } from "../models/price.js";
+import { Price } from "../models/Price.js";
 import { CurrenciesRepository } from "../repositories/CurrenciesRepository.js";
 import { PricesRepository } from "../repositories/PricesRepository.js";
 import { TokensRepository } from "../repositories/TokensRepository.js";

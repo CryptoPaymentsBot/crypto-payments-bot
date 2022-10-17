@@ -3,23 +3,23 @@ import { redisClient } from "../../src/repositories/Redis.js";
 
 export class RedisStringMap {
   static defaultOptions = Object.freeze({
-    warnDupicats: true,
+    warnDuplicates: true,
   });
   static _maps = {};
   /**
    *
    * @param {string} name
    * @param {Object} [options]
-   * @param {boolean} [options.warnDupicats=true]
+   * @param {boolean} [options.warnDuplicates=true]
    * @param {import("redis").ClientOpts} [options.redisOptions]
    */
   constructor(name, options = RedisStringMap.defaultOptions) {
     if (typeof name !== "string") throw new Error('"name" must be a string');
-    const { warnDupicats } = options;
+    const { warnDuplicates } = options;
     this.name = name;
     this.client = redisClient;
 
-    if (RedisStringMap._maps[name] && warnDupicats) logger.warn(`RedisMap`);
+    if (RedisStringMap._maps[name] && warnDuplicates) logger.warn(`RedisMap`);
     RedisStringMap._maps[name] = true;
   }
 

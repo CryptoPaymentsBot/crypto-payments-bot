@@ -2,7 +2,7 @@ import { config } from "../../config.js";
 import { ParseMode } from "../../constants.js";
 import { t18g } from "../../locales/t18g.js";
 import { logger } from "../../logger.js";
-import { User } from "../../models/user.js";
+import { User } from "../../models/User.js";
 import { RedisStringMap } from "../../types/RedisStringMap.js";
 import { Timedelta } from "../../types/Timedelta.js";
 import { getTimeInSeconds } from "../../utils/getTimeInSeconds.js";

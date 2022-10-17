@@ -1,5 +1,5 @@
 import { logger } from "../logger.js";
-import { User } from "../models/user.js";
+import { User } from "../models/User.js";
 import { UsersRepository } from "../repositories/UsersRepository.js";
 
 export class UsersService {
@@ -16,22 +16,22 @@ export class UsersService {
     const user = await UsersRepository.getUser(id);
     if (user) return user;
 
-    return this.createUser({ id, locale, name });
+    return this.createUser({ telegramId: id, locale, name });
   }
 
   /**
    *
    * @param {object} params
-   * @param {number} params.id
+   * @param {number} params.telegramId
    * @param {string} params.name
    * @param {string} params.locale
    *
    * @returns {Promise<User>}
    */
-  async createUser({ id, name, locale }) {
-    const user = new User({ id, name, locale });
+  async createUser({ telegramId, name, locale }) {
+    const user = new User({ telegramId, name, locale });
 
-    logger.log(`[NEW USER] #id${id} ${name}`);
+    logger.log(`[NEW USER] #id${telegramId} ${name}`);
 
     await UsersRepository.update(user);
 

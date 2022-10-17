@@ -2,7 +2,7 @@ import { config } from "../../config.js";
 import { ParseMode } from "../../constants.js";
 import { t18g } from "../../locales/t18g.js";
 import { logger } from "../../logger.js";
-import { User } from "../../models/user.js";
+import { User } from "../../models/User.js";
 import { UsersRepository } from "../../repositories/UsersRepository.js";
 import { UserCommand } from "../../types/UserCommand.js";
 import { bot } from "../bots/bot.js";

@@ -4,7 +4,7 @@ import { isAsyncFunction } from "node:util/types";
 import { ParseMode } from "../../constants.js";
 import { getKey, t18g } from "../../locales/t18g.js";
 import { logger } from "../../logger.js";
-import { User } from "../../models/user.js";
+import { User } from "../../models/User.js";
 import { bot } from "../bots/bot.js";
 
 /**
@@ -39,7 +39,7 @@ import { bot } from "../bots/bot.js";
 export class Menu extends EventEmitter {
   static Events = Object.freeze({
     ALL: "all",
-    OUTHER: "outher",
+    OTHER: "OTHER",
     ERROR: "error",
   });
 
@@ -80,11 +80,11 @@ export class Menu extends EventEmitter {
 
     const { locale } = user;
 
-    const localeKey = getKey(locale, text) ?? Menu.Events.OUTHER;
+    const localeKey = getKey(locale, text) ?? Menu.Events.OTHER;
 
     const key = this.buttons.flat().includes(localeKey)
       ? localeKey
-      : Menu.Events.OUTHER;
+      : Menu.Events.OTHER;
     const payload = { message, user, menuNode, locale, id, key };
 
     await this.emitAsync(Menu.Events.ALL, payload);

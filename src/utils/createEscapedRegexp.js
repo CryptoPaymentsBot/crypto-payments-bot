@@ -10,6 +10,6 @@ export function createEscapedRegexp(string) {
 
   return new RegExp(
     string.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&").replace(/-/g, "\\x2d"),
-    "gmi"
+    "gmi",
   );
 }

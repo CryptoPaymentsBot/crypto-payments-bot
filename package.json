@@ -25,6 +25,7 @@
     "@fastify/rate-limit": "^7.3.0",
     "@fastify/swagger": "^7.4.1",
     "@masterarthur/config": "^1.1.1",
+    "@prisma/client": "^4.3.1",
     "bip32": "github:mainarthur/bip32",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^6.0.2",
@@ -35,6 +36,7 @@
     "ioredis": "^5.0.4",
     "mongodb": "^4.8.0",
     "node-telegram-bot-api": "^0.57.0",
+    "prisma": "^4.3.1",
     "telegram-escape": "^1.1.0",
     "tiny-secp256k1": "^2.2.1",
     "undici": "^5.9.1"

@@ -4,3 +4,4 @@ data/users.db
 config.json
 config.env
 dump.rdb
+.fleet

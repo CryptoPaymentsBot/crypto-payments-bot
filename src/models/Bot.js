@@ -6,12 +6,6 @@ import { ReceiveOptions } from "./ReceiveOptions.js";
 import { User } from "./User.js";
 
 /**
- * @typedef RequestOption
- * @property {"contract"| "location" | "comment"} type
- * @property {string} comment
- */
-
-/**
  * @typedef Balances
  * @property {number} updatedAt
  */
@@ -41,7 +35,7 @@ export class Bot {
    * @param {Date} [params.createdAt=Date()] timestamp in ms of user creation
    * @param {string[]} [params.excludedTokens=[]] list of excluded tokens, linked to Token.symbol
    * @param {import("./ReceiveOptions.js").ReceiveOptionsEnum} [params.receiveOption=DM] default invoice receive payment information method
-   * @param {RequestOption[]} [params.requestList=[]] default list of data which will be requested before payment
+   * @param {import("./RequestType.js").RequestTypeEnum[]} [params.requestList=[]] default list of data which will be requested before payment
    *
    * @param {string | null} [params.webhookUrl=null]
    *
@@ -136,7 +130,7 @@ export class Bot {
      */
     this.receiveOption = receiveOption;
     /**
-     * @type {RequestOption[]} default list of data which will be requested before payment
+     * @type {import("./RequestType.js").RequestTypeEnum[]} default list of data which will be requested before payment
      */
     this.requestList = requestList;
     /**

@@ -93,6 +93,7 @@ model Invoice {
 
   amountFiat String
   requestList Json
+  paymentDeadline DateTime
   currency Currency @relation(fields: [currencyCode], references: [code])
   product Product @relation(fields: [productId], references: [id])
   user User @relation(fields: [userId], references: [id])
@@ -101,8 +102,11 @@ model Invoice {
   createdAt DateTime? @default(now())
   responsesList Json? @default("[]")
 
+  paymentTokenId Int?
+  paymentAmount String?
+
   lastPaymentCheck DateTime?
-  payedAtCheck DateTime?
+  payedAt DateTime?
   payedTokenId Int?
   payedAmount String?
 

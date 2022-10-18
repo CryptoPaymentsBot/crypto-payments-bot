@@ -19,35 +19,35 @@
     "bot",
     "telegram"
   ],
-  "author": "@MasterArhur",
+  "author": "@MasterArthur",
   "license": "ISC",
   "dependencies": {
-    "@fastify/rate-limit": "^7.3.0",
-    "@fastify/swagger": "^7.4.1",
+    "@fastify/rate-limit": "^7.5.0",
+    "@fastify/swagger": "^7.6.1",
     "@masterarthur/config": "^1.1.1",
-    "@prisma/client": "^4.3.1",
     "bip32": "github:mainarthur/bip32",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^6.0.2",
     "bull": "^4.8.2",
     "cashaddrjs": "^0.4.4",
     "ethers": "^5.7.0",
-    "fastify": "^4.3.0",
+    "fastify": "^4.9.2",
     "ioredis": "^5.0.4",
     "mongodb": "^4.8.0",
     "node-telegram-bot-api": "^0.57.0",
-    "prisma": "^4.3.1",
     "telegram-escape": "^1.1.0",
     "tiny-secp256k1": "^2.2.1",
     "undici": "^5.9.1"
   },
   "devDependencies": {
+    "@prisma/client": "^4.5.0",
     "@types/node": "^18.0.3",
     "bson": "^4.6.5",
     "eslint": "^8.20.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "nodemon": "^2.0.19",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "prisma": "^4.5.0"
   }
 }

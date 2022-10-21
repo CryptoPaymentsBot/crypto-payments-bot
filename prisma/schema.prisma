@@ -17,6 +17,7 @@ model User {
   name String
   locale String
   startTag String?
+  isConfirmed Boolean? @default(false)
   createdAt DateTime? @default(now())
 
   bots Bot[]

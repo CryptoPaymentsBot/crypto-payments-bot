@@ -13,6 +13,7 @@ export class User {
    * @param {string} params.locale user language locale
    * @param {string | null | undefined} [params.startTag=null] argument of first /start argument command
    * @param {Date} [params.createdAt=Date] timestamp in ms of user creation
+   * @param {boolean} [params.isConfirmed=false] was user data confirmed on bot side
    *
    * @param {Bot[]} [params.bots=[]] owned bots of this user
    * @param {Invoice[]} [params.invoices=[]] invoices of this user
@@ -24,6 +25,7 @@ export class User {
     locale,
     startTag,
     createdAt = new Date(),
+    isConfirmed = false,
     bots = [],
     invoices = [],
   }) {
@@ -36,27 +38,31 @@ export class User {
      */
     this.telegramId = telegramId;
     /**
-     * @type {string} params.name user full name
+     * @type {string} user full name
      */
     this.name = name;
     /**
-     * @type {string} params.locale user language locale
+     * @type {string} user language locale
      */
     this.locale = locale;
     /**
-     * @type {string | null | undefined} [params.startTag=null] argument of first /start argument command
+     * @type {string | null | undefined} argument of first /start argument command
      */
     this.startTag = startTag;
     /**
-     * @type {Date} [params.createdAt=Date] timestamp in ms of user creation
+     * @type {Date} timestamp in ms of user creation
      */
     this.createdAt = createdAt;
     /**
-     * @type  {Bot[]} [params.bots=[]] owned bots of this user
+     * @type {boolean} was user data confirmed on bot side
+     */
+    this.isConfirmed = isConfirmed;
+    /**
+     * @type  {Bot[]} owned bots of this user
      */
     this.bots = bots;
     /**
-     * @type  {Invoice[]} [params.invoices=[]] invoices of this user
+     * @type  {Invoice[]} invoices of this user
      */
     this.invoices = invoices;
   }

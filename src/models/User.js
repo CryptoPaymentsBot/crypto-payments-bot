@@ -12,8 +12,8 @@ export class User {
    * @param {string} params.name user full name
    * @param {string} params.locale user language locale
    * @param {string | null | undefined} [params.startTag=null] argument of first /start argument command
-   * @param {Date} [params.createdAt=Date] timestamp in ms of user creation
-   * @param {boolean} [params.isConfirmed=false] was user data confirmed on bot side
+   * @param {Date | null} [params.createdAt=Date] Date when user was created in db
+   * @param {boolean | null} [params.isConfirmed=false] was user data confirmed on bot side
    *
    * @param {Bot[]} [params.bots=[]] owned bots of this user
    * @param {Invoice[]} [params.invoices=[]] invoices of this user
@@ -24,7 +24,7 @@ export class User {
     name,
     locale,
     startTag,
-    createdAt = new Date(),
+    createdAt,
     isConfirmed = false,
     bots = [],
     invoices = [],
@@ -52,11 +52,11 @@ export class User {
     /**
      * @type {Date} timestamp in ms of user creation
      */
-    this.createdAt = createdAt;
+    this.createdAt = createdAt ?? new Date();
     /**
      * @type {boolean} was user data confirmed on bot side
      */
-    this.isConfirmed = isConfirmed;
+    this.isConfirmed = Boolean(isConfirmed);
     /**
      * @type  {Bot[]} owned bots of this user
      */

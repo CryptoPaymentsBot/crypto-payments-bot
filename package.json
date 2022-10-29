@@ -35,6 +35,7 @@
     "ioredis": "^5.0.4",
     "mongodb": "^4.8.0",
     "node-telegram-bot-api": "^0.57.0",
+    "pino-pretty": "^9.1.1",
     "telegram-escape": "^1.1.0",
     "tiny-secp256k1": "^2.2.1",
     "undici": "^5.9.1"

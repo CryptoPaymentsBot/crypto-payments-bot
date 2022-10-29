@@ -2,13 +2,52 @@ import FastifyRateLimit from "@fastify/rate-limit";
 import FastifySwagger from "@fastify/swagger";
 import Fastify from "fastify";
 
-export const server = Fastify({ logger: true });
+import { config, packageMetadata } from "../config.js";
+import { ENVS } from "../constants.js";
+
+const logger =
+  config("ENV") === ENVS.DEV
+    ? {
+        transport: {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+          },
+        },
+      }
+    : true;
+
+export const server = Fastify({
+  logger,
+});
 
 server.register(FastifySwagger, {
+  mode: "dynamic",
+  openapi: {
+    openapi: "3.0.0",
+    info: {
+      title: packageMetadata.name,
+      description: packageMetadata.description,
+      version: packageMetadata.version,
+    },
+    tags: [
+      {
+        name: "Users",
+      },
+      {
+        name: "Bots",
+      },
+      {
+        name: "Products",
+      },
+      {
+        name: "Invoices",
+      },
+    ],
+  },
   routePrefix: "/docs",
   exposeRoute: true,
   uiConfig: {
-    docExpansion: "full",
     deepLinking: false,
   },
 });

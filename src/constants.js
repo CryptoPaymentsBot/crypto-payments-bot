@@ -85,6 +85,11 @@ export const Apps = Object.freeze({
   API: "API",
 });
 
+export const ENVS = {
+  DEV: "dev",
+  PRODUCTION: "prod",
+};
+
 export const IETFTags = [
   "af",
   "am",

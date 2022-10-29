@@ -9,3 +9,9 @@ Centralized Crypto Payments for Telegram Bots or Websites
 - prettier
 - docker
 - mongodb
+
+## External data
+
+![coingecko logo](docs/featured/coingecko.png)
+
+- Pricing data from CoinGecko

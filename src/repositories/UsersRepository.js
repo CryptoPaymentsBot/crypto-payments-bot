@@ -2,9 +2,8 @@
  * @typedef {User & {_id:import('bson').ObjectId}} UserDocument
  */
 
-import { logger } from "../logger.js";
+import { Model } from "../models/Model.js";
 import { User } from "../models/User.js";
-import { prepareRecord } from "../utils/prepareRecord.js";
 import { prismaClient } from "./PrismaClient.js";
 
 export class UsersRepository {
@@ -24,24 +23,18 @@ export class UsersRepository {
    * @param {User} user
    */
   static async update(user) {
-    if (!this.collection)
-      throw new Error("UsersRepository collections is not loaded");
-    const { _id } = user;
+    const { id, ...data } = user;
 
-    if (_id) {
-      return this.collection.updateOne(
-        { _id },
-        { $set: prepareRecord(user) },
-        { upsert: true },
-      );
+    Model.removeRelations(data);
+
+    if (id) {
+      return await prismaClient.user.update({ where: { id }, data });
     } else {
-      return this.collection.insertOne(user);
+      return await prismaClient.user.create({ data });
     }
   }
 
   static async count() {
-    if (!this.collection)
-      throw new Error("UsersRepository collections is not loaded");
-    return this.collection.estimatedDocumentCount({});
+    return await prismaClient.user.count();
   }
 }

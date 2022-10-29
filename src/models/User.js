@@ -2,8 +2,11 @@ import { escapeHTML } from "telegram-escape";
 
 import { Bot } from "./Bot.js";
 import { Invoice } from "./Invoice.js";
+import { Model } from "./Model.js";
 
-export class User {
+export class User extends Model {
+  _relations = ["bots", "invoices"];
+
   /**
    *
    * @param {Object} params
@@ -29,6 +32,7 @@ export class User {
     bots = [],
     invoices = [],
   }) {
+    super();
     /**
      * @type {number | undefined}  row id
      */

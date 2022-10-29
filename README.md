@@ -12,6 +12,6 @@ Centralized Crypto Payments for Telegram Bots or Websites
 
 ## External data
 
-![coingecko logo](docs/featured/coingecko.png)
-
 - Pricing data from CoinGecko
+
+<img src="docs/featured/coingecko.png" alt="coingecko logo" width="200" />

@@ -8,7 +8,7 @@ Centralized Crypto Payments for Telegram Bots or Websites
 - eslint
 - prettier
 - docker
-- mongodb
+- postgresql
 
 ## External data
 

@@ -10,7 +10,7 @@ x-app: &app
     DATABASE_URL: ${DATABASE_URL}
     REDIS_URL: ${REDIS_URL}
     PORT: 3000
-  entrypoint: sh -c "echo $DATABASE_URL && npx prisma db push && npm run nodemon"
+  entrypoint: sh -c "npx prisma db push && npm run nodemon"
   volumes:
     - ..:/app
 
@@ -54,11 +54,11 @@ services:
       - test
     image: ${image_name}
     depends_on:
-      - test_mongo
+      - test_postgres
       - redis
     environment:
       ENV: test
-      MONGO_URL: postgres://postgres:postgres@test_postgres:27017/
+      DATABASE_URL: postgres://postgres:postgres@test_postgres:27017/
       REDIS_URL: redis://redis:6379/0
     volumes:
       - ..:/app

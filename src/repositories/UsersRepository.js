@@ -1,15 +1,10 @@
-/**
- * @typedef {User & {_id:import('bson').ObjectId}} UserDocument
- */
-
 import { Model } from "../models/Model.js";
 import { User } from "../models/User.js";
 import { prismaClient } from "./PrismaClient.js";
 
 export class UsersRepository {
   /**
-   *
-   * @param {Number} telegramId
+   * @param {number} telegramId
    * @returns {Promise<User | null>}
    */
   static async getUser(telegramId) {
@@ -29,9 +24,8 @@ export class UsersRepository {
 
     if (id) {
       return await prismaClient.user.update({ where: { id }, data });
-    } else {
-      return await prismaClient.user.create({ data });
     }
+    return await prismaClient.user.create({ data });
   }
 
   static async count() {

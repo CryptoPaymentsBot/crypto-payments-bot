@@ -1,27 +1,19 @@
 import { Bot } from "../models/Bot.js";
-import { prepareRecord } from "../utils/prepareRecord.js";
+import { Model } from "../models/Model.js";
+import { prismaClient } from "./PrismaClient.js";
 
 export class BotsRepository {
   /**
-   *
-   * @param {Number} ownerId
-   * @returns {Promise<Bot[]>}
-   */
-  static async getBots(ownerId) {
-    const documents = await this.collection.find({ ownerId }).toArray();
-
-    return documents.map((botDocument) => new Bot(botDocument));
-  }
-
-  /**
-   *
-   * @param {Number} id
+   * @param {object} where
+   * @param {string} [where.apiKeyHash]
+   * @param {number} [where.telegramId]
    * @returns {Promise<Bot | null>}
    */
-  static async getBot(id) {
-    const doc = await this.collection.findOne({ id });
-
-    return doc && new Bot(doc);
+  static async getBot(where) {
+    const bot = await prismaClient.bot.findFirst({ where });
+    if (!bot) return null;
+    // @ts-ignore
+    return new Bot(bot);
   }
 
   /**
@@ -29,20 +21,19 @@ export class BotsRepository {
    * @param {Bot} bot
    */
   static async update(bot) {
-    const { _id } = bot;
+    const { id, ...data } = bot;
 
-    if (_id) {
-      return this.collection.updateOne(
-        { _id },
-        { $set: prepareRecord(bot) },
-        { upsert: true },
-      );
-    } else {
-      return this.collection.insertOne(bot);
+    Model.removeRelations(data);
+
+    if (id) {
+      // @ts-ignore
+      return await prismaClient.bot.update({ where: { id }, data });
     }
+    // @ts-ignore
+    return await prismaClient.bot.create({ data });
   }
 
   static async count() {
-    return this.collection.estimatedDocumentCount({});
+    return await prismaClient.bot.count();
   }
 }

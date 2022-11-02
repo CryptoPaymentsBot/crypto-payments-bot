@@ -1,16 +1,19 @@
 import { escapeHTML } from "telegram-escape";
 
 import { Currency } from "./Currency.js";
+import { Model } from "./Model.js";
 import { Product } from "./Product.js";
 import { ReceiveOptions } from "./ReceiveOptions.js";
 import { User } from "./User.js";
 
 /**
  * @typedef Balances
- * @property {number} updatedAt
+ * @property {Date} updatedAt
  */
 
-export class Bot {
+export class Bot extends Model {
+  _relations = ["user", "products", "currency"];
+
   /**
    *
    * @param {Object} params
@@ -54,13 +57,14 @@ export class Bot {
     user,
     products,
     currency,
-    isPremium,
+    isPremium = false,
     createdAt = new Date(),
     excludedTokens = [],
     receiveOption = ReceiveOptions.DM,
     requestList = [],
     webhookUrl = null,
   }) {
+    super();
     /**
      * @type {number | undefined} row id
      */

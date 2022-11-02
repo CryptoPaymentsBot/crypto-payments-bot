@@ -119,9 +119,7 @@ export class UsersController {
         isConfirmed: false,
       });
 
-      Model.removeRelations(newUser);
-
-      return newUser;
+      return Model.removeRelations(newUser);
     },
   };
 }

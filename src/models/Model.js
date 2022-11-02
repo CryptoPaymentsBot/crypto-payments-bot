@@ -13,6 +13,7 @@ export class Model {
   static removeRelations(model) {
     model?._relations?.forEach((relation) => delete model[relation]);
     delete model._relations;
+    return model;
   }
 
   toJSON() {

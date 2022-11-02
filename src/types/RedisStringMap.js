@@ -25,8 +25,8 @@ export class RedisStringMap {
 
   /**
    *
-   * @param {String} key
-   * @returns {String}
+   * @param {string} key
+   * @returns {string}
    */
   _buildKey(key) {
     return `${this.name}_${key}`;
@@ -34,8 +34,8 @@ export class RedisStringMap {
 
   /**
    *
-   * @param {String} key
-   * @returns {Promise<String | undefined>}
+   * @param {string} key
+   * @returns {Promise<string | undefined>}
    */
   get(key) {
     return new Promise((resolve, reject) => {
@@ -48,13 +48,29 @@ export class RedisStringMap {
 
   /**
    *
-   * @param {String} key
-   * @param {String} value
-   * @returns {Promise<String | undefined>}
+   * @param {string} key
+   * @param {string} value
+   * @returns {Promise<string | undefined>}
    */
   set(key, value) {
     return new Promise((resolve, reject) => {
       this.client.set(this._buildKey(key), value, (err, reply) => {
+        if (err) return reject(err);
+        resolve(reply?.toString());
+      });
+    });
+  }
+
+  /**
+   *
+   * @param {string} key
+   * @param {number} ttl
+   * @param {string} value
+   * @returns {Promise<string | undefined>}
+   */
+  setex(key, ttl, value) {
+    return new Promise((resolve, reject) => {
+      this.client.setex(this._buildKey(key), ttl, value, (err, reply) => {
         if (err) return reject(err);
         resolve(reply?.toString());
       });

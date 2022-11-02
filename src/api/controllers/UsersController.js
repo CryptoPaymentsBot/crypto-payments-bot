@@ -1,9 +1,13 @@
 import { IETFTags } from "../../constants.js";
 import { Model } from "../../models/Model.js";
+import { AuthService } from "../../services/AuthService.js";
+import { BotsService } from "../../services/BotsService.js";
+import { CacheService } from "../../services/CacheService.js";
 import { UsersService } from "../../services/UsersService.js";
 import { HttpError } from "../errors/HttpError.js";
 import { errors } from "../schemas/errors.js";
 import { userSchema } from "../schemas/user.js";
+import { AuthController } from "./AuthController.js";
 
 /**
  * @typedef {object} GetUserParams
@@ -17,12 +21,14 @@ import { userSchema } from "../schemas/user.js";
  * @property {string} locale
  */
 
-export class UsersController {
+export class UsersController extends AuthController {
   /**
-   *
+   * @param {AuthService} authService
+   * @param {CacheService} cacheService
    * @param {UsersService} userService
    */
-  constructor(userService) {
+  constructor(authService, cacheService, userService) {
+    super(authService, cacheService);
     this.userService = userService;
   }
 
@@ -62,6 +68,7 @@ export class UsersController {
         ...errors,
       },
     },
+    onRequest: this.authOnRequest,
     handler: async (request) => {
       const user = await this.userService.find(request.params);
       if (!user) throw new HttpError(404, "User not found");
@@ -101,6 +108,7 @@ export class UsersController {
         ...errors,
       },
     },
+    onRequest: this.authOnRequest,
     handler: async (request) => {
       const { locale, name, telegramId } = request.body;
       const user = await this.userService.find({ telegramId });

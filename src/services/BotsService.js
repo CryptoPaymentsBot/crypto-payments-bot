@@ -3,6 +3,7 @@ import { createHash, randomBytes } from "crypto";
 import { logger } from "../logger.js";
 import { Bot } from "../models/Bot.js";
 import { BotsRepository } from "../repositories/BotsRepository.js";
+import { sha256 } from "../utils/sha256.js";
 import { Wallet } from "../wallet/wallet.js";
 
 export class BotsService {
@@ -24,7 +25,7 @@ export class BotsService {
    * @param {number} params.userId
    * @param {string} params.botToken
    *
-   * @returns {Promise<{bot: Bot, mnemonic: string}>}
+   * @returns {Promise<{bot: Bot, mnemonic: string, apiKey: string}>}
    */
   async createBot({ userId, botToken }) {
     const botInfoResponse = await fetch(this.generateBotInfoUrl(botToken));
@@ -33,21 +34,33 @@ export class BotsService {
      */
     const { id, username, first_name: name } = await botInfoResponse.json();
     const { addresses, mnemonic } = await Wallet.createAccounts();
+    const apiKey = this.generateBotApiKey();
 
     const bot = new Bot({
-      id,
+      telegramId: id,
       userId,
       name,
       addresses,
       username: `${username}`,
-      apiKey: this.generateBotApiKey(),
-      tokenHash: createHash("sha256").update(botToken).digest("hex"),
+      apiKeyHash: sha256(apiKey),
+      tokenHash: sha256(botToken),
     });
 
-    logger.log(`[NEW BOT] #id${id} #ownerId${ownerId} ${name}`);
+    logger.log(`[NEW BOT] #id${id} #userId${userId} ${name}`);
 
     await BotsRepository.update(bot);
 
-    return { bot, mnemonic };
+    return { bot, mnemonic, apiKey };
+  }
+
+  /**
+   *
+   * @param {object} param
+   * @param {string} param.apiKey
+   */
+  async findByApiKey({ apiKey }) {
+    const bot = await BotsRepository.getBot({ apiKeyHash: sha256(apiKey) });
+
+    return bot;
   }
 }

@@ -32,6 +32,7 @@
     "pino",
     "scripthash",
     "Secp",
+    "setex",
     "supergroup",
     "Timedelta",
     "undici",

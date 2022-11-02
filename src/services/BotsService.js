@@ -1,12 +1,18 @@
-import { createHash, randomBytes } from "crypto";
-
 import { logger } from "../logger.js";
 import { Bot } from "../models/Bot.js";
 import { BotsRepository } from "../repositories/BotsRepository.js";
 import { sha256 } from "../utils/sha256.js";
 import { Wallet } from "../wallet/wallet.js";
+import { AuthService } from "./AuthService.js";
 
 export class BotsService {
+  /**
+   * @param {AuthService} authService
+   */
+  constructor(authService) {
+    this.authService = authService;
+  }
+
   /**
    *
    * @param {string} botToken
@@ -14,10 +20,6 @@ export class BotsService {
    */
   generateBotInfoUrl = (botToken) =>
     `https://api.telegram.org/bot${botToken}/getMe`;
-
-  generateBotApiKey() {
-    return randomBytes(32).toString("hex");
-  }
 
   /**
    *
@@ -34,7 +36,7 @@ export class BotsService {
      */
     const { id, username, first_name: name } = await botInfoResponse.json();
     const { addresses, mnemonic } = await Wallet.createAccounts();
-    const apiKey = this.generateBotApiKey();
+    const apiKey = this.authService.generateBotApiKey();
 
     const bot = new Bot({
       telegramId: id,
@@ -51,16 +53,5 @@ export class BotsService {
     await BotsRepository.update(bot);
 
     return { bot, mnemonic, apiKey };
-  }
-
-  /**
-   *
-   * @param {object} param
-   * @param {string} param.apiKey
-   */
-  async findByApiKey({ apiKey }) {
-    const bot = await BotsRepository.getBot({ apiKeyHash: sha256(apiKey) });
-
-    return bot;
   }
 }

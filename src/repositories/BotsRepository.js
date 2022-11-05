@@ -7,7 +7,7 @@ export class BotsRepository {
    * @param {object} where
    * @param {string} [where.apiKeyHash]
    * @param {number} [where.telegramId]
-   * @returns {Promise<Bot | null>}
+   * @returns {Promise<(Bot & {id: number}) | null>}
    */
   static async getBot(where) {
     const bot = await prismaClient.bot.findFirst({ where });

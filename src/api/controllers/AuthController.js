@@ -1,5 +1,6 @@
 import { AuthService } from "../../services/AuthService.js";
 import { CacheService } from "../../services/CacheService.js";
+import { sha256 } from "../../utils/sha256.js";
 import { HttpError } from "../errors/HttpError.js";
 
 export class AuthController {
@@ -15,10 +16,17 @@ export class AuthController {
   }
 
   CACHE_KEY = "AUTH_CACHE";
-  CACHE_TIME_IN_SECONDS = 15;
+  CACHE_TIME_IN_SECONDS = 30;
 
   /**
-   * @type {import("fastify").onRequestAsyncHookHandler}
+   * @param {string} apiKey
+   */
+  generateCacheKey(apiKey) {
+    return `${this.CACHE_KEY}:${sha256(apiKey)}`;
+  }
+
+  /**
+   * @param {import("fastify").FastifyRequest} request
    */
   async authOnRequest(request) {
     const apiKey = request.headers["API-KEY"];
@@ -26,15 +34,29 @@ export class AuthController {
       throw new HttpError(401, '"API-KEY" header is required');
     if (!this.authService.preValidateApiKey(apiKey))
       throw new HttpError(401, '"API-KEY" has invalid format');
-    const cachedFound = await this.cacheService.get(this.CACHE_KEY);
-    if (!(cachedFound === null || cachedFound === undefined)) return;
+
+    const cacheKey = this.generateCacheKey(apiKey);
+
+    const cachedIds = await this.cacheService.get(cacheKey);
+
+    if (cachedIds && cachedIds.telegramId && cachedIds.rowId) {
+      request.bot = cachedIds;
+      return;
+    }
 
     const bot = await this.authService.findByApiKey({ apiKey });
-    const found = Boolean(bot);
 
-    this.cacheService.setex(this.CACHE_KEY, this.CACHE_TIME_IN_SECONDS, found);
+    if (!bot) {
+      this.cacheService.setex(cacheKey, this.CACHE_TIME_IN_SECONDS, null);
+      throw new HttpError(401, '"API-KEY" is not found');
+    }
 
-    if (!found) throw new HttpError(401, '"API-KEY" is not found');
+    const botIds = { rowId: bot.id, telegramId: bot.telegramId };
+
+    this.cacheService.setex(cacheKey, this.CACHE_TIME_IN_SECONDS, botIds);
+
+    request.bot = botIds;
+
     return;
   }
 }

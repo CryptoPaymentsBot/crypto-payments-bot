@@ -1,5 +1,7 @@
 export { default as defaultRouteOptions } from "./api/controllers/defaultRouteOptions";
 export { loadController } from "./api/loadController";
+export { botsPlugin } from "./api/plugins/bots";
+export { controllersPlugin } from "./api/plugins/controllers";
 export { usersPlugin } from "./api/plugins/users";
 export { botSchema } from "./api/schemas/bot";
 export { errors } from "./api/schemas/errors";

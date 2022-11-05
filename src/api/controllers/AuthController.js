@@ -5,10 +5,11 @@ import { HttpError } from "../errors/HttpError.js";
 export class AuthController {
   /**
    *
-   * @param {AuthService} authService
-   * @param {CacheService} cacheService
+   * @param {object} params
+   * @param {AuthService} params.authService
+   * @param {CacheService} params.cacheService
    */
-  constructor(authService, cacheService) {
+  constructor({ authService, cacheService }) {
     this.authService = authService;
     this.cacheService = cacheService;
   }

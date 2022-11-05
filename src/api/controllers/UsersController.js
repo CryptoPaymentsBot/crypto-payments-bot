@@ -23,12 +23,13 @@ import { AuthController } from "./AuthController.js";
 
 export class UsersController extends AuthController {
   /**
-   * @param {AuthService} authService
-   * @param {CacheService} cacheService
-   * @param {UsersService} userService
+   * @param {object} params
+   * @param {AuthService} params.authService
+   * @param {CacheService} params.cacheService
+   * @param {UsersService} params.userService
    */
-  constructor(authService, cacheService, userService) {
-    super(authService, cacheService);
+  constructor({ authService, cacheService, userService }) {
+    super({ authService, cacheService });
     this.userService = userService;
   }
 

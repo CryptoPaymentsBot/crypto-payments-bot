@@ -13,11 +13,11 @@ export const usersPlugin = (fastify) => {
   const cacheService = new CacheService();
   const userService = new UsersService();
 
-  const controller = new UsersController(
+  const controller = new UsersController({
     authService,
     cacheService,
     userService,
-  );
+  });
 
   loadController(fastify, controller);
 };

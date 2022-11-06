@@ -44,6 +44,15 @@ server.register(FastifySwagger, {
         name: "Invoices",
       },
     ],
+    components: {
+      securitySchemes: {
+        apiKey: {
+          type: "apiKey",
+          name: "API-KEY",
+          in: "header",
+        },
+      },
+    },
   },
   routePrefix: "/docs",
   exposeRoute: true,

@@ -1,8 +1,17 @@
 import { logger } from "../logger.js";
 import { User } from "../models/User.js";
 import { UsersRepository } from "../repositories/UsersRepository.js";
+import { AuthService } from "./AuthService.js";
+import { BaseService } from "./BaseService.js";
 
-export class UsersService {
+export class UsersService extends BaseService {
+  /**
+   * @param {AuthService} authService
+   */
+  constructor(authService) {
+    super();
+    this.authService = authService;
+  }
   /**
    *
    * @param {object} param

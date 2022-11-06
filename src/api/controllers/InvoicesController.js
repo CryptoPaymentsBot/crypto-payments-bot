@@ -1,17 +1,19 @@
 import { AuthService } from "../../services/AuthService.js";
-import { BotsService } from "../../services/BotsService.js";
 import { CacheService } from "../../services/CacheService.js";
+import { InvoicesService } from "../../services/InvoicesService.js";
 import { BaseController } from "./BaseController.js";
 
-export class BotsController extends BaseController {
+export class InvoicesController extends BaseController {
+  static services = [AuthService, CacheService, InvoicesService];
+
   /**
    * @param {object} params
    * @param {AuthService} params.authService
    * @param {CacheService} params.cacheService
-   * @param {BotsService} params.botsService
+   * @param {InvoicesService} params.invoicesService
    */
-  constructor({ authService, cacheService, botsService }) {
+  constructor({ authService, cacheService, invoicesService }) {
     super({ authService, cacheService });
-    this.botsService = botsService;
+    this.invoicesService = invoicesService;
   }
 }

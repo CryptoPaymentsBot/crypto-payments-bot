@@ -4,12 +4,14 @@ import { BotsRepository } from "../repositories/BotsRepository.js";
 import { sha256 } from "../utils/sha256.js";
 import { Wallet } from "../wallet/wallet.js";
 import { AuthService } from "./AuthService.js";
+import { BaseService } from "./BaseService.js";
 
-export class BotsService {
+export class BotsService extends BaseService {
   /**
    * @param {AuthService} authService
    */
   constructor(authService) {
+    super();
     this.authService = authService;
   }
 

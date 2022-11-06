@@ -1,11 +1,9 @@
 import { DEFAULT_LOCALE } from "../../../locales/t18g.js";
 import { logger } from "../../../logger.js";
-import { UsersService } from "../../../services/UsersService.js";
+import { usersService } from "../../../services/services.js";
 import { Timedelta } from "../../../types/Timedelta.js";
 import { bot } from "../../bots/bot.js";
 import { callbackController } from "../../callback/controller.js";
-
-const usersService = new UsersService();
 
 /**
  *  @param {import('bull').Job<import("node-telegram-bot-api").CallbackQuery>}  job

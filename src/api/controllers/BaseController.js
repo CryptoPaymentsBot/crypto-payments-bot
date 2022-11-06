@@ -1,9 +1,15 @@
 import { AuthService } from "../../services/AuthService.js";
+import { BaseService } from "../../services/BaseService.js";
 import { CacheService } from "../../services/CacheService.js";
 import { sha256 } from "../../utils/sha256.js";
 import { HttpError } from "../errors/HttpError.js";
 
-export class AuthController {
+export class BaseController {
+  /**
+   * @type {Function[]}
+   */
+  static services = [AuthService, CacheService];
+
   /**
    *
    * @param {object} params

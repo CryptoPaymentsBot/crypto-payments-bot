@@ -2,8 +2,9 @@ import { randomBytes } from "crypto";
 
 import { BotsRepository } from "../repositories/BotsRepository.js";
 import { sha256 } from "../utils/sha256.js";
+import { BaseService } from "./BaseService.js";
 
-export class AuthService {
+export class AuthService extends BaseService {
   API_KEY_LENGTH = 32;
 
   generateBotApiKey() {

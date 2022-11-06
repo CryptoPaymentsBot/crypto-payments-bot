@@ -1,6 +1,7 @@
 import { Bot } from "../models/Bot.js";
+import { BaseService } from "./BaseService.js";
 
-export class BalanceService {
+export class BalanceService extends BaseService {
   /**
    * @param {Bot} bot
    */

@@ -1,13 +1,13 @@
 import { IETFTags } from "../../constants.js";
 import { Model } from "../../models/Model.js";
 import { AuthService } from "../../services/AuthService.js";
-import { BotsService } from "../../services/BotsService.js";
 import { CacheService } from "../../services/CacheService.js";
 import { UsersService } from "../../services/UsersService.js";
 import { HttpError } from "../errors/HttpError.js";
 import { errors } from "../schemas/errors.js";
+import { security } from "../schemas/security.js";
 import { userSchema } from "../schemas/user.js";
-import { AuthController } from "./AuthController.js";
+import { BaseController } from "./BaseController.js";
 
 /**
  * @typedef {object} GetUserParams
@@ -21,7 +21,9 @@ import { AuthController } from "./AuthController.js";
  * @property {string} locale
  */
 
-export class UsersController extends AuthController {
+export class UsersController extends BaseController {
+  static services = [AuthService, CacheService, UsersService];
+
   /**
    * @param {object} params
    * @param {AuthService} params.authService
@@ -68,6 +70,7 @@ export class UsersController extends AuthController {
         },
         ...errors,
       },
+      security,
     },
     onRequest: this.authOnRequest,
     handler: async (request) => {
@@ -108,6 +111,7 @@ export class UsersController extends AuthController {
         201: userSchema,
         ...errors,
       },
+      security,
     },
     onRequest: this.authOnRequest,
     handler: async (request) => {

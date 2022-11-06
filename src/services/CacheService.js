@@ -1,7 +1,9 @@
 import { RedisStringMap } from "../types/RedisStringMap.js";
+import { BaseService } from "./BaseService.js";
 
-export class CacheService {
+export class CacheService extends BaseService {
   constructor() {
+    super();
     this.map = new RedisStringMap("cache");
   }
 
